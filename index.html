@@ -520,6 +520,48 @@ body.portal-on .portal-dup { display: none !important; }
 .pp-body > details > summary.pp-sum-hidden, .pp-body .pp-sum-hidden { display: none !important; }
 .pp-body > details, .pp-body > * { border: 0 !important; margin: 0 !important; padding-left: 0 !important; padding-right: 0 !important; }
 @media (max-width: 560px) { .pp-hero img { aspect-ratio: 16 / 10; } .pp-cf { text-align: left; } }
+/* ---- Owner portal charts ---- */
+.viz { --s1: #2c5aa0; --s2: #b8862e; --s3: #0d8f7a; --s4: #bf5a3c; --s5: #7a5cc0; --viz-surface: var(--paper); --viz-grid: var(--rule); --viz-ink: var(--ink); --viz-soft: var(--ink-soft); --viz-muted: var(--muted); }
+@media (prefers-color-scheme: dark) { :root:where(:not([data-theme="light"])) .viz { --s1: #4f7fd0; --s2: #ad8435; --s3: #1a9f88; --s4: #d06a48; --s5: #9580dc; } }
+:root[data-theme="dark"] .viz { --s1: #4f7fd0; --s2: #ad8435; --s3: #1a9f88; --s4: #d06a48; --s5: #9580dc; }
+.viz-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; margin: 0 0 1.75rem; }
+.viz { background: var(--viz-surface); border: 1px solid var(--rule); padding: 1.15rem 1.25rem 1rem; min-width: 0; }
+.viz-head { display: flex; justify-content: space-between; align-items: baseline; gap: .5rem 1rem; flex-wrap: wrap; margin-bottom: .35rem; }
+.viz h4 { margin: 0; font-family: var(--display); font-size: .78rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--brass); }
+.viz .viz-sub { margin: 0 0 .9rem; font-size: .95rem; color: var(--viz-muted); line-height: 1.4; }
+.viz-tbtn { font-family: var(--display); font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--viz-muted); background: none; border: 0; border-bottom: 1px solid var(--rule); padding: .1rem 0; cursor: pointer; }
+.viz-tbtn:hover { color: var(--viz-ink); }
+.viz-tbtn:focus-visible, .viz [tabindex]:focus-visible { outline: 2px solid var(--gold-btn, #c49a52); outline-offset: 2px; }
+.viz-seg { display: flex; gap: 2px; height: 40px; background: var(--viz-surface); }
+.viz-seg > span { display: block; min-width: 3px; height: 100%; transition: opacity .15s; cursor: default; }
+.viz-seg > span:first-child { border-radius: 4px 0 0 4px; }
+.viz-seg > span:last-child { border-radius: 0 4px 4px 0; }
+.viz-seg > span:only-child { border-radius: 4px; }
+.viz-seg:hover > span:not(:hover) { opacity: .55; }
+.viz-legend { list-style: none; margin: .85rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .55rem 1rem; }
+.viz-legend li { display: grid; grid-template-columns: 10px 1fr; column-gap: .5rem; align-items: start; font-size: .92rem; line-height: 1.3; color: var(--viz-soft); }
+.viz-legend i { width: 10px; height: 10px; border-radius: 2px; margin-top: .3rem; }
+.viz-legend b { display: block; font-weight: 500; color: var(--viz-ink); font-variant-numeric: tabular-nums; }
+.viz-legend small { color: var(--viz-muted); font-size: .85rem; }
+.viz-note { margin: .8rem 0 0; font-size: .88rem; color: var(--viz-muted); font-style: italic; }
+.viz-rows { display: grid; gap: .9rem; }
+.viz-row .viz-rlabel { display: flex; justify-content: space-between; gap: .75rem; font-size: .95rem; color: var(--viz-ink); margin-bottom: .3rem; }
+.viz-row .viz-rlabel span { color: var(--viz-muted); font-size: .88rem; font-variant-numeric: tabular-nums; }
+.viz-row .viz-seg { height: 22px; }
+.viz-line { position: relative; }
+.viz-line svg { display: block; width: 100%; overflow: visible; }
+.viz-line text { font-family: var(--text); font-size: 12px; fill: var(--viz-muted); font-variant-numeric: tabular-nums; }
+.viz-line .lbl { font-size: 13px; fill: var(--viz-ink); }
+.viz-table { width: 100%; margin-top: .9rem; border-collapse: collapse; font-size: .9rem; font-variant-numeric: tabular-nums; }
+.viz-table th, .viz-table td { text-align: right; padding: .3rem .4rem; border-bottom: 1px solid var(--rule); }
+.viz-table th:first-child, .viz-table td:first-child { text-align: left; }
+.viz-table th { font-weight: 600; color: var(--viz-muted); font-size: .8rem; letter-spacing: .06em; }
+.viz-tablewrap { max-height: 16rem; overflow: auto; }
+.viz-tip { position: fixed; z-index: 60; pointer-events: none; background: var(--band, #14294a); color: var(--band-ink, #f3eee2); padding: .45rem .65rem; font-size: .85rem; line-height: 1.35; box-shadow: 0 6px 18px rgba(0,0,0,.18); max-width: 16rem; font-variant-numeric: tabular-nums; }
+.viz-tip[hidden] { display: none; }
+.viz-tip b { font-weight: 600; }
+.viz-tip i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: .4rem; }
+.pp-viz { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; }
 </style>
 <script>document.body.classList.add("site-mp")</script>
 
@@ -832,10 +874,11 @@ function syncNav() {
     hidePortalDup();
     buildPropCards();
     buildPropPages();
+    buildCharts();
     if (!wasOn) setView("portfolio");
     if (!navObserver) {
       // If the portal re-draws itself (opening a property, going back), re-apply the extras.
-      navObserver = new MutationObserver(() => { if (!navOn) return; navObserver.disconnect(); try { addPropIcons(); useMarketEstimate(); hidePortalDup(); buildPropCards(); buildPropPages(); } finally { navObserver.observe($("portal-content"), { childList: true, subtree: true }); } });
+      navObserver = new MutationObserver(() => { if (!navOn) return; navObserver.disconnect(); try { addPropIcons(); useMarketEstimate(); hidePortalDup(); buildPropCards(); buildPropPages(); buildCharts(); } finally { navObserver.observe($("portal-content"), { childList: true, subtree: true }); } });
     }
     navObserver.disconnect(); navObserver.observe($("portal-content"), { childList: true, subtree: true });
   } else if (navObserver) navObserver.disconnect();
@@ -1051,7 +1094,209 @@ function setView(key) {
   ["springer", "observatory"].forEach(k => document.body.classList.toggle("view-" + k, !!page && k === key));
   if (key !== "portfolio" && !page) { goProperty(key); return; }
   window.scrollTo(0, 0);
+  requestAnimationFrame(() => vizLines.forEach(l => l.holder.isConnected && l.holder.offsetParent && l.draw()));
 }
+// ---- Owner portal charts (built from the figures in the signed-in portal) ----
+const vizUsd = n => (n < 0 ? "−" : "") + "$" + Math.round(Math.abs(n)).toLocaleString("en-US");
+const vizK = n => Math.abs(n) >= 1e6 ? "$" + (n / 1e6).toFixed(2).replace(/\.?0+$/, "") + "M" : Math.abs(n) >= 1000 ? "$" + Math.round(n / 1000) + "k" : "$" + Math.round(n);
+const vizPct = (a, b) => b ? Math.round(a / b * 100) + "%" : "";
+function vizMoney(s) { const m = /([−–-])?\s*\$\s*([\d,]+(?:\.\d+)?)/.exec(s || ""); if (!m) return null; const v = parseFloat(m[2].replace(/,/g, "")); return m[1] ? -v : v; }
+function vizFacts(scope) {
+  const out = [];
+  scope.querySelectorAll("dl > div").forEach(d => { const dt = d.querySelector("dt"), dd = d.querySelector("dd"); if (dt && dd) out.push([dt.textContent.replace(/\s+/g, " ").trim(), dd.textContent.replace(/\s+/g, " ").trim()]); });
+  return out;
+}
+let vizTipEl = null;
+function vizTip(html, e) {
+  if (!vizTipEl) { vizTipEl = document.createElement("div"); vizTipEl.className = "viz-tip"; vizTipEl.hidden = true; vizTipEl.setAttribute("role", "status"); document.body.append(vizTipEl); }
+  if (html == null) { vizTipEl.hidden = true; return; }
+  vizTipEl.innerHTML = html; vizTipEl.hidden = false;
+  const r = vizTipEl.getBoundingClientRect(); let x = e.clientX + 14, y = e.clientY - r.height - 12;
+  if (x + r.width > innerWidth - 8) x = e.clientX - r.width - 14; if (y < 8) y = e.clientY + 16;
+  vizTipEl.style.left = x + "px"; vizTipEl.style.top = y + "px";
+}
+const vizEsc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function vizCard(title, sub, rows, cols) {
+  const card = document.createElement("section"); card.className = "viz";
+  card.innerHTML = `<div class="viz-head"><h4>${vizEsc(title)}</h4><button type="button" class="viz-tbtn" aria-expanded="false">Table</button></div>${sub ? `<p class="viz-sub">${sub}</p>` : ""}<div class="viz-body"></div><div class="viz-tablewrap" hidden><table class="viz-table"><thead><tr>${cols.map(c => `<th scope="col">${vizEsc(c)}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((c, i) => i ? `<td>${vizEsc(c)}</td>` : `<th scope="row" style="font-weight:400;color:inherit;font-size:inherit;letter-spacing:0">${vizEsc(c)}</th>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const btn = card.querySelector(".viz-tbtn"), tw = card.querySelector(".viz-tablewrap"), body = card.querySelector(".viz-body");
+  btn.addEventListener("click", () => { const show = tw.hidden; tw.hidden = !show; body.hidden = show; btn.textContent = show ? "Chart" : "Table"; btn.setAttribute("aria-expanded", String(show)); });
+  return card;
+}
+// One whole split into parts: a segmented bar with a legend that carries names, values and shares.
+function vizSegmented(parts, total, opts = {}) {
+  const wrap = document.createElement("div");
+  const bar = document.createElement("div"); bar.className = "viz-seg"; if (opts.height) bar.style.height = opts.height + "px";
+  bar.setAttribute("role", "img"); bar.setAttribute("aria-label", parts.map(p => `${p.name} ${vizUsd(p.value)}`).join(", "));
+  const sum = parts.reduce((a, p) => a + p.value, 0) || 1;
+  parts.forEach(p => {
+    const s = document.createElement("span"); s.style.flex = `${p.value} 1 0`; s.style.background = `var(--${p.color})`;
+    s.tabIndex = 0;
+    const tip = `<i style="background:var(--${p.color})"></i><b>${vizEsc(p.name)}</b><br>${vizUsd(p.value)}${opts.unit || ""} · ${vizPct(p.value, total || sum)}`;
+    s.addEventListener("mousemove", e => vizTip(tip, e)); s.addEventListener("mouseleave", () => vizTip(null));
+    s.addEventListener("focus", () => { const r = s.getBoundingClientRect(); vizTip(tip, { clientX: r.left + r.width / 2, clientY: r.top }); });
+    s.addEventListener("blur", () => vizTip(null));
+    bar.append(s);
+  });
+  wrap.append(bar);
+  if (!opts.noLegend) {
+    const ul = document.createElement("ul"); ul.className = "viz-legend";
+    ul.innerHTML = parts.map(p => `<li><i style="background:var(--${p.color})"></i><span>${vizEsc(p.name)}<b>${vizUsd(p.value)}${opts.unit || ""} <small>${vizPct(p.value, total || sum)}</small></b></span></li>`).join("");
+    wrap.append(ul);
+  }
+  return wrap;
+}
+// Read the portfolio table (hidden behind the property cards) into rows keyed by column name.
+function vizPortfolioRows() {
+  const table = [...$("portal-content").querySelectorAll("table")].find(t => t.rows[0] && /^property$/i.test(t.rows[0].cells[0].textContent.trim()));
+  if (!table) return null;
+  const heads = [...table.rows[0].cells].map(c => c.textContent.replace(/[*\s]+$/g, "").trim().toLowerCase());
+  const col = (tr, name) => { const i = heads.indexOf(name); return i < 0 ? null : vizMoney(tr.cells[i] && tr.cells[i].textContent); };
+  const rows = [...table.rows].slice(1).map(tr => ({ name: tr.cells[0].textContent.replace(/\s+/g, " ").trim(), income: col(tr, "income"), market: col(tr, "market est."), est: col(tr, "est. value"), equity: col(tr, "equity") }));
+  const out = rows.filter(r => r.name && !/^total$/i.test(r.name));
+  out.total = rows.find(r => /^total$/i.test(r.name)) || null;
+  return out;
+}
+function buildPortfolioCharts() {
+  const root = $("portal-content");
+  if (root.querySelector(".viz-grid")) return;
+  const rows = vizPortfolioRows(); if (!rows || !rows.length) return;
+  const anchor = root.querySelector(".ptotal") || root.querySelector(".pcards"); if (!anchor) return;
+  const grid = document.createElement("div"); grid.className = "viz-grid";
+  const short = n => n.replace(/\s+avenue$/i, "");
+  // Equity vs. debt: one bar per property, value = what is owed + equity, on a shared scale.
+  const ed = rows.filter(r => r.equity != null && (r.market != null || r.est != null)).map(r => { const v = r.market != null ? r.market : r.est; return { name: short(r.name), value: v, owed: v - r.equity, equity: r.equity }; });
+  if (ed.length) {
+    const max = Math.max(...ed.map(r => r.value));
+    let tot = ed.reduce((a, r) => ({ owed: a.owed + r.owed, equity: a.equity + r.equity, value: a.value + r.value }), { owed: 0, equity: 0, value: 0 });
+    // Use the table's own total row when there is one, so the figures match it to the dollar.
+    const T = rows.total; if (T && T.equity != null && (T.market != null || T.est != null)) { const v = T.market != null ? T.market : T.est; tot = { value: v, equity: T.equity, owed: v - T.equity }; }
+    const card = vizCard("Equity and debt", `What each property is worth at today's market estimate, split into what's owed (mortgage and HELOC) and your equity.`,
+      [...ed.map(r => [r.name, vizUsd(r.value), vizUsd(r.owed), vizUsd(r.equity)]), ["Total", vizUsd(tot.value), vizUsd(tot.owed), vizUsd(tot.equity)]], ["Property", "Value", "Owed", "Equity"]);
+    const list = document.createElement("div"); list.className = "viz-rows";
+    ed.forEach(r => {
+      const row = document.createElement("div"); row.className = "viz-row";
+      row.innerHTML = `<div class="viz-rlabel">${vizEsc(r.name)}<span>${vizUsd(r.value)}</span></div>`;
+      const seg = vizSegmented([{ name: "Owed", value: r.owed, color: "s4" }, { name: "Equity", value: r.equity, color: "s3" }], r.value, { noLegend: true, height: 22 });
+      seg.style.width = (r.value / max * 100) + "%";
+      row.append(seg); list.append(row);
+    });
+    const ul = document.createElement("ul"); ul.className = "viz-legend";
+    ul.innerHTML = `<li><i style="background:var(--s4)"></i><span>Owed<b>${vizUsd(tot.owed)} <small>${vizPct(tot.owed, tot.value)}</small></b></span></li><li><i style="background:var(--s3)"></i><span>Equity<b>${vizUsd(tot.equity)} <small>${vizPct(tot.equity, tot.value)}</small></b></span></li>`;
+    card.querySelector(".viz-body").append(list, ul);
+    grid.append(card);
+  }
+  // Income mix: each property's share of total monthly income.
+  const inc = rows.filter(r => r.income != null && r.income > 0);
+  if (inc.length > 1) {
+    const total = inc.reduce((a, r) => a + r.income, 0);
+    const colors = ["s1", "s2", "s3", "s4", "s5"];
+    const card = vizCard("Monthly income by property", `${vizUsd(total)} a month in rent and tenant charges.`,
+      [...inc.map(r => [short(r.name), vizUsd(r.income), vizPct(r.income, total)]), ["Total", vizUsd(total), "100%"]], ["Property", "Income / mo", "Share"]);
+    card.querySelector(".viz-body").append(vizSegmented(inc.map((r, i) => ({ name: short(r.name), value: r.income, color: colors[i % 5] })), total, { unit: "/mo" }));
+    grid.append(card);
+  }
+  if (grid.children.length) anchor.after(grid);
+}
+// Monthly cash flow panel → where the rent goes.
+function vizCashParts(block) {
+  const head = [...block.querySelectorAll("h4")].find(h => /monthly cash flow/i.test(h.textContent));
+  if (!head) return null;
+  const panel = head.closest("section") || head.parentElement;
+  let income = 0, pi = 0, escrow = 0, heloc = 0, exp = 0, flow = null;
+  for (const [dt, dd] of vizFacts(panel)) {
+    const v = vizMoney(dd); if (v == null) continue;
+    if (/cash flow after debt/i.test(dt)) { flow = v; break; }
+    if (v >= 0) income += v;
+    else if (/principal and interest/i.test(dt)) pi += -v;
+    else if (/^escrow/i.test(dt)) escrow += -v;
+    else if (/heloc|home equity/i.test(dt)) heloc += -v;
+    else exp += -v;
+  }
+  if (!income) return null;
+  return { income, pi, escrow, heloc, exp, flow: flow != null ? flow : income - pi - escrow - heloc - exp };
+}
+function vizRentChart(block) {
+  const c = vizCashParts(block); if (!c) return null;
+  const parts = [{ name: "Mortgage principal & interest", value: c.pi, color: "s1" }, { name: "Escrow (taxes & insurance)", value: c.escrow, color: "s2" }, { name: "Expenses", value: c.exp, color: "s3" }, { name: "HELOC payment", value: c.heloc, color: "s4" }].filter(p => p.value > 0);
+  if (c.flow > 0) parts.push({ name: "Cash flow", value: c.flow, color: "s5" });
+  const out = parts.reduce((a, p) => a + (p.name === "Cash flow" ? 0 : p.value), 0);
+  const card = vizCard("Where the rent goes", `${vizUsd(c.income)} a month in rent and tenant charges.`,
+    [...parts.map(p => [p.name, vizUsd(p.value), vizPct(p.value, Math.max(c.income, out))]), ...(c.flow <= 0 ? [["Shortfall", vizUsd(c.flow), ""]] : [])], ["Item", "Per month", "Share"]);
+  card.querySelector(".viz-body").append(vizSegmented(parts, Math.max(c.income, out), { unit: "/mo" }));
+  if (c.flow <= 0) { const n = document.createElement("p"); n.className = "viz-note"; n.textContent = `Payments and expenses exceed income by ${vizUsd(-c.flow)} a month.`; card.querySelector(".viz-body").append(n); }
+  return card;
+}
+// Mortgage payoff projection from the current balance, rate and monthly principal and interest.
+function vizLoanSeries(block) {
+  const f = vizFacts(block); const get = re => { const x = f.find(([dt]) => re.test(dt)); return x ? x[1] : null; };
+  const bal = vizMoney(get(/^current balance/i)), pi = vizMoney(get(/^principal and interest/i)), rateTxt = get(/^interest rate/i), eq = vizMoney(get(/^equity/i));
+  const rate = rateTxt ? parseFloat(rateTxt) : NaN;
+  if (!(bal > 0) || !(pi > 0) || !(rate > 0) || eq == null) return null;
+  const r = rate / 100 / 12; if (pi <= bal * r) return null;
+  const y0 = new Date().getFullYear(); const pts = [{ year: y0, bal, eq }];
+  let b = bal, m = 0;
+  while (b > 0 && m < 12 * 40) { b = b * (1 + r) - pi; m++; if (b < 0) b = 0; if (m % 12 === 0 || b === 0) pts.push({ year: y0 + Math.ceil(m / 12), bal: b, eq: eq + (bal - b) }); }
+  return { pts, bal, eq, payoff: y0 + Math.ceil(m / 12) };
+}
+function vizLineChart(block) {
+  const s = vizLoanSeries(block); if (!s) return null;
+  const card = vizCard("Mortgage payoff", `Projected from today's balance, rate and payment. Equity holds today's market value and HELOC balance flat.`,
+    s.pts.map(p => [String(p.year), vizUsd(p.bal), vizUsd(p.eq)]), ["Year", "Mortgage balance", "Equity"]);
+  const holder = document.createElement("div"); holder.className = "viz-line";
+  const legend = document.createElement("ul"); legend.className = "viz-legend";
+  legend.innerHTML = `<li><i style="background:var(--s4)"></i><span>Mortgage balance<b>${vizUsd(s.bal)} today <small>paid off ${s.payoff}</small></b></span></li><li><i style="background:var(--s3)"></i><span>Equity<b>${vizUsd(s.eq)} today <small>${vizUsd(s.pts[s.pts.length - 1].eq)} at payoff</small></b></span></li>`;
+  card.querySelector(".viz-body").append(holder, legend);
+  const draw = () => {
+    const W = Math.max(260, holder.clientWidth || 320), H = 210, L = 46, R = 12, T = 10, B = 26;
+    const maxY = Math.max(...s.pts.map(p => Math.max(p.bal, p.eq))) * 1.05;
+    const x0 = s.pts[0].year, x1 = s.pts[s.pts.length - 1].year;
+    const X = y => L + (y - x0) / Math.max(1, x1 - x0) * (W - L - R), Y = v => T + (1 - v / maxY) * (H - T - B);
+    const step = [50000, 100000, 200000, 250000, 500000].find(st => maxY / st <= 5) || 1000000;
+    let g = ""; for (let v = 0; v <= maxY; v += step) g += `<line x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--viz-grid)" stroke-width="1"/><text x="${L - 6}" y="${Y(v) + 4}" text-anchor="end">${vizK(v)}</text>`;
+    const span = x1 - x0, xs = span > 20 ? 10 : 5; let xt = "";
+    for (let y = Math.ceil(x0 / xs) * xs; y <= x1; y += xs) xt += `<text x="${X(y)}" y="${H - 6}" text-anchor="middle">${y}</text>`;
+    const path = k => s.pts.map((p, i) => `${i ? "L" : "M"}${X(p.year).toFixed(1)},${Y(p[k]).toFixed(1)}`).join("");
+    holder.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Mortgage balance falls from ${vizUsd(s.bal)} to zero by ${s.payoff}; equity rises from ${vizUsd(s.eq)}.">
+      ${g}${xt}
+      <path d="${path("bal")}" fill="none" stroke="var(--s4)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <path d="${path("eq")}" fill="none" stroke="var(--s3)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+      <g class="xh" style="display:none"><line y1="${T}" y2="${H - B}" stroke="var(--viz-muted)" stroke-width="1" stroke-dasharray="2 3"/><circle r="4.5" fill="var(--s4)" stroke="var(--viz-surface)" stroke-width="2"/><circle r="4.5" fill="var(--s3)" stroke="var(--viz-surface)" stroke-width="2"/></g>
+      <rect x="${L}" y="0" width="${W - L - R}" height="${H}" fill="transparent" tabindex="0"/>
+    </svg>`;
+    const svg = holder.querySelector("svg"), xh = svg.querySelector(".xh"), [ln, c1, c2] = xh.children, hit = svg.querySelector("rect");
+    const show = (px, e) => {
+      const yr = Math.round(x0 + (px - L) / (W - L - R) * (x1 - x0));
+      const p = s.pts.reduce((a, q) => Math.abs(q.year - yr) < Math.abs(a.year - yr) ? q : a, s.pts[0]);
+      const x = X(p.year); xh.style.display = ""; ln.setAttribute("x1", x); ln.setAttribute("x2", x);
+      c1.setAttribute("cx", x); c1.setAttribute("cy", Y(p.bal)); c2.setAttribute("cx", x); c2.setAttribute("cy", Y(p.eq));
+      vizTip(`<b>${p.year}</b><br><i style="background:var(--s4)"></i>Mortgage ${vizUsd(p.bal)}<br><i style="background:var(--s3)"></i>Equity ${vizUsd(p.eq)}`, e);
+    };
+    hit.addEventListener("mousemove", e => { const r = svg.getBoundingClientRect(); show((e.clientX - r.left) * W / r.width, e); });
+    hit.addEventListener("mouseleave", () => { xh.style.display = "none"; vizTip(null); });
+    let ki = 0;
+    hit.addEventListener("keydown", e => { if (!/Arrow(Left|Right)/.test(e.key)) return; e.preventDefault(); ki = Math.max(0, Math.min(s.pts.length - 1, ki + (e.key === "ArrowRight" ? 1 : -1))); const r = svg.getBoundingClientRect(); const x = X(s.pts[ki].year); show(x, { clientX: r.left + x * r.width / W, clientY: r.top + Y(s.pts[ki].bal) * r.height / H }); });
+    hit.addEventListener("blur", () => { xh.style.display = "none"; vizTip(null); });
+  };
+  vizLines.push({ holder, draw });
+  return card;
+}
+let vizLines = [];
+let vizResizeT = null;
+window.addEventListener("resize", () => { clearTimeout(vizResizeT); vizResizeT = setTimeout(() => vizLines.forEach(l => l.holder.isConnected && l.draw()), 150); });
+function buildPropertyCharts() {
+  document.querySelectorAll("#prop-pages > .ppage").forEach(page => {
+    if (page.querySelector(".pp-viz")) return;
+    const block = page.querySelector(".pp-body"); if (!block) return;
+    const wrap = document.createElement("div"); wrap.className = "pp-viz";
+    const a = vizRentChart(block), b = vizLineChart(block);
+    if (a) wrap.append(a); if (b) wrap.append(b);
+    if (!wrap.children.length) return;
+    const after = page.querySelector(".pp-stats") || page.querySelector(".pp-head");
+    after.after(wrap);
+  });
+}
+function buildCharts() { vizLines = vizLines.filter(l => l.holder.isConnected); buildPortfolioCharts(); buildPropertyCharts(); vizLines.forEach(l => l.holder.isConnected && l.draw()); }
 function openSingle(src, cap) { ogI = -1; $("og-img").src = src; $("og-img").alt = cap; $("og-cap").textContent = cap; document.querySelector(".og-prev").hidden = document.querySelector(".og-next").hidden = true; $("og-box").hidden = false; document.body.style.overflow = "hidden"; }
 let ogI = 0;
 function openBox(i) { document.querySelector(".og-prev").hidden = document.querySelector(".og-next").hidden = false; ogI = (i + OG_CAPS.length) % OG_CAPS.length; $("og-img").src = "photos/springer-" + String(ogI + 1).padStart(2, "0") + ".jpg"; $("og-img").alt = OG_CAPS[ogI]; $("og-cap").innerHTML = ""; $("og-cap").append(OG_CAPS[ogI]); const n = document.createElement("span"); n.textContent = (ogI + 1) + " / " + OG_CAPS.length; $("og-cap").append(n); $("og-box").hidden = false; document.body.style.overflow = "hidden"; }
