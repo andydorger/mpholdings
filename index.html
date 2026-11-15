@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>MP Holdings</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="MP Holdings owns and manages residential properties in Cincinnati, Ohio.">
@@ -10,6 +10,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+</head>
+<body>
 <style>
 /* Layout: a quiet clubhouse page. Centered crest masthead, two framed entrances on the landing page, hairline brass rules, wide-tracked capitals. */
 :root {
@@ -411,9 +413,116 @@ footer .wrap { padding-block: 2rem 2.5rem; display: flex; flex-wrap: wrap; justi
   form { padding: 1.75rem 1.25rem; }
   .heraldry { padding: 1.5rem 1.25rem; }
 }
+/* Owner portal: property photo gallery */
+#owner-gallery { margin-top: 3rem; padding-top: 2.25rem; border-top: 1px solid var(--rule); }
+#owner-gallery .og-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 1.5rem; margin-bottom: 1.5rem; }
+#owner-gallery .og-eyebrow { margin: 0 0 .35rem; font-family: var(--display); font-size: .8rem; letter-spacing: .24em; text-transform: uppercase; color: var(--brass); }
+#owner-gallery h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(1.6rem, 4vw, 2.1rem); line-height: 1.15; color: var(--ink); }
+#owner-gallery .og-meta { margin: 0; font-size: 1rem; color: var(--muted); }
+#owner-gallery .og-hero { display: block; width: 100%; padding: 0; border: 1px solid var(--rule); background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+#owner-gallery .og-hero img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+#owner-gallery ul { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: .6rem; }
+#owner-gallery .og-thumb { display: block; width: 100%; padding: 0; border: 1px solid var(--rule); background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+#owner-gallery .og-thumb img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; transition: transform .35s ease, opacity .2s; }
+#owner-gallery .og-thumb.plan img { object-fit: contain; background: #fff; }
+#owner-gallery .og-thumb:hover img { transform: scale(1.04); }
+#owner-gallery button:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+/* Property icons in the owner portal's Properties table */
+.prop-icon { display: inline-block; vertical-align: middle; width: 56px; height: 42px; margin: -.3rem .75rem -.3rem 0; padding: 0; border: 1px solid var(--rule); background: var(--paper-2); cursor: zoom-in; overflow: hidden; flex: none; }
+.prop-icon img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.prop-icon:hover { border-color: var(--brass); }
+.prop-icon:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.prop-cell { white-space: nowrap; }
+@media (max-width: 560px) { .prop-icon { width: 44px; height: 33px; margin-right: .55rem; } }
+.og-box { position: fixed; inset: 0; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .9rem; padding: 3.25rem 16px 1.25rem; background: rgba(8, 14, 24, .94); color: #ece8dd; }
+.og-box[hidden] { display: none !important; }
+.og-box img { max-width: min(100%, 1400px); max-height: calc(100vh - 8rem); object-fit: contain; background: #fff0; }
+.og-box .og-cap { margin: 0; font-family: var(--display); font-size: 1.05rem; letter-spacing: .06em; text-align: center; }
+.og-box .og-cap span { color: #b9b3a3; margin-left: .6rem; font-size: .9rem; }
+.og-box button { position: absolute; border: 0; background: none; color: #ece8dd; font: 400 2.2rem/1 var(--display); cursor: pointer; padding: .4rem .7rem; }
+.og-box button:hover { color: var(--gold); }
+.og-box .og-close { top: .5rem; right: .5rem; }
+.og-box .og-prev { left: .25rem; top: 50%; transform: translateY(-50%); }
+.og-box .og-next { right: .25rem; top: 50%; transform: translateY(-50%); }
+@media (max-width: 560px) { #owner-gallery ul { grid-template-columns: repeat(3, 1fr); gap: .4rem; } .og-box .og-prev, .og-box .og-next { top: auto; bottom: .5rem; transform: none; } }
+/* Owner portal: the masthead becomes one slim bar with the portal's navigation */
+body.portal-on .masthead .wrap { display: flex; align-items: center; justify-content: space-between; gap: .75rem 2rem; flex-wrap: wrap; padding-block: .85rem; max-width: 72rem; }
+body.portal-on .brand { display: flex; align-items: center; gap: .8rem; }
+body.portal-on .brand .mp-mark { width: 3.4rem; }
+body.portal-on .wordmark { font-size: .95rem; letter-spacing: .32em; margin-right: 0; }
+body.portal-on .portal-bar { display: none; }
+body.portal-on .masthead { position: sticky; top: 0; z-index: 20; }
+body.portal-on #portal-content *, body.portal-on #owner-gallery { scroll-margin-top: 6.5rem; }
+body.portal-on.view-prop #portal-content { display: none; }
+body.portal-on.has-pages:not(.view-springer) #owner-gallery { display: none !important; }
+body.portal-on #view-company { padding-top: 2.75rem; }
+body.portal-on .portal-dup { display: none !important; }
+.pnav { display: flex; align-items: center; gap: 1rem 2rem; flex-wrap: wrap; justify-content: flex-end; flex: 1 1 auto; }
+.pnav[hidden] { display: none !important; }
+.pnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .25rem 1.9rem; flex-wrap: nowrap; }
+.pnav button { font-family: var(--display); font-size: .82rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--band-muted, #aeb6c4); background: none; border: 0; border-bottom: 1px solid transparent; padding: .45rem 0 .3rem; cursor: pointer; white-space: nowrap; transition: color .2s, border-color .2s; }
+.pnav button:hover { color: var(--band-ink, #f3eee2); border-bottom-color: rgba(243, 238, 226, .35); }
+.pnav button[aria-current="page"] { color: var(--band-ink, #f3eee2); border-bottom-color: var(--gold-btn, #c49a52); }
+.pnav button:focus-visible { outline: 2px solid var(--gold-btn, #c49a52); outline-offset: 3px; }
+.pnav .pnav-out { color: var(--gold-btn, #c49a52); padding-left: 1.6rem; border-left: 1px solid rgba(243, 238, 226, .2); border-bottom: 1px solid transparent; }
+.pnav .pnav-out:hover { color: var(--band-ink, #f3eee2); border-bottom-color: transparent; }
+@media (max-width: 760px) {
+  body.portal-on .masthead .wrap { padding-block: .75rem .25rem; row-gap: .35rem; }
+  .pnav { flex-basis: 100%; justify-content: space-between; gap: 1rem; }
+  .pnav { min-width: 0; flex-wrap: nowrap; }
+  .pnav ul { overflow-x: auto; min-width: 0; flex: 1 1 auto; gap: 1.3rem; padding-bottom: .35rem; scrollbar-width: none; }
+  .pnav ul::-webkit-scrollbar { display: none; }
+  .pnav button { font-size: .74rem; letter-spacing: .16em; }
+  .pnav .pnav-out { padding-left: 1rem; }
+  body.portal-on #view-company { padding-top: 2rem; }
+}
+/* Owner portal: Properties shown as side-by-side cards with exterior photos */
+.pcards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin: 1.5rem 0 1rem; }
+.pcard { position: relative; display: flex; flex-direction: column; background: var(--cream, #f2ecdf); border-top: 3px solid var(--gold-btn, #c49a52); color: var(--ink); text-align: left; transition: box-shadow .25s, transform .25s; }
+.pcard:hover { box-shadow: 0 10px 28px rgba(15, 33, 58, .12); transform: translateY(-2px); }
+.pcard .pc-photo { display: block; width: 100%; padding: 0; border: 0; background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+.pcard .pc-photo img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .5s ease; }
+.pcard .pc-photo:hover img { transform: scale(1.03); }
+.pcard .pc-body { display: flex; flex-direction: column; gap: 1rem; padding: 1.25rem 1.35rem 1.35rem; flex: 1; }
+.pcard .pc-name { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.55rem; line-height: 1.15; color: var(--band, var(--ink)); }
+.pcard .pc-name small { display: block; margin-top: .2rem; font-family: var(--text); font-size: .95rem; color: var(--muted); }
+.pcard dl, .ptotal dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(7.5rem, 1fr)); gap: .9rem 1.25rem; }
+.pcard dt, .ptotal dt { font-family: var(--display); font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); line-height: 1.3; }
+.pcard dd, .ptotal dd { margin: .15rem 0 0; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.pcard .pc-open { margin-top: auto; align-self: flex-start; font-family: var(--display); font-size: .8rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--band, var(--ink)); background: none; border: 0; border-bottom: 1px solid var(--gold-btn, #c49a52); padding: .3rem 0; cursor: pointer; }
+.pcard .pc-open:hover { color: var(--brass); }
+.pcard button:focus-visible, .ptotal button:focus-visible { outline: 2px solid var(--gold-btn, #c49a52); outline-offset: 3px; }
+.ptotal { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 2rem; margin: 0 0 1.5rem; padding: 1.1rem 1.35rem; background: var(--band, var(--ink)); color: var(--band-ink, #f3eee2); }
+.ptotal .pt-label { font-family: var(--display); font-size: .85rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-btn, #c49a52); }
+.ptotal dl { flex: 1; }
+.ptotal dt { color: var(--band-muted, #aeb6c4); }
+.ptotal dd { color: var(--band-ink, #f3eee2); }
+.pc-hidden { display: none !important; }
+@media (max-width: 560px) { .pcards { grid-template-columns: 1fr; } .pcard .pc-name { font-size: 1.35rem; } }
+/* Owner portal: one landing page per property */
+#prop-pages > .ppage[hidden] { display: none !important; }
+.ppage { display: grid; gap: 2rem; }
+.pp-back { justify-self: start; font-family: var(--display); font-size: .8rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); background: none; border: 0; border-bottom: 1px solid transparent; padding: .3rem 0; cursor: pointer; }
+.pp-back:hover { color: var(--ink); border-bottom-color: var(--gold-btn, #c49a52); }
+.pp-hero { position: relative; display: block; width: 100%; padding: 0; border: 0; border-top: 3px solid var(--gold-btn, #c49a52); background: var(--paper-2); cursor: zoom-in; overflow: hidden; }
+.pp-hero img { display: block; width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+.pp-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-top: -.5rem; }
+.pp-head h2 { margin: 0; font-family: var(--display); font-weight: 500; font-size: clamp(2.1rem, 5vw, 3.2rem); line-height: 1.05; color: var(--band, var(--ink)); }
+.pp-head .pp-sub { margin: .45rem 0 0; color: var(--muted); font-size: 1.05rem; }
+.pp-cf { text-align: right; }
+.pp-cf span { display: block; font-family: var(--display); font-size: .74rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.pp-cf strong { font-family: var(--display); font-weight: 500; font-size: 2rem; color: var(--band, var(--ink)); }
+.pp-cf strong.neg { color: var(--danger, #8a2a2a); }
+.pp-stats { padding: 1.1rem 1.35rem; background: var(--cream, #f2ecdf); border-left: 3px solid var(--gold-btn, #c49a52); }
+.pp-stats dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: .9rem 1.5rem; }
+.pp-stats dt { font-family: var(--display); font-size: .72rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.pp-stats dd { margin: .15rem 0 0; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.pp-body > details > summary.pp-sum-hidden, .pp-body .pp-sum-hidden { display: none !important; }
+.pp-body > details, .pp-body > * { border: 0 !important; margin: 0 !important; padding-left: 0 !important; padding-right: 0 !important; }
+@media (max-width: 560px) { .pp-hero img { aspect-ratio: 16 / 10; } .pp-cf { text-align: left; } }
 </style>
-</head>
-<body class="site-mp">
+<script>document.body.classList.add("site-mp")</script>
+
 
 <header class="masthead">
   <div class="wrap">
@@ -422,6 +531,14 @@ footer .wrap { padding-block: 2rem 2.5rem; display: flex; flex-wrap: wrap; justi
       <span class="mp-mark" aria-hidden="true"></span>
       <span class="wordmark">MP HOLDINGS</span>
     </a>
+    <nav class="pnav" id="pnav" aria-label="Owner portal" hidden>
+      <ul>
+        <li><button type="button" data-go="portfolio" aria-current="page">Portfolio</button></li>
+        <li><button type="button" data-go="springer">2981 Springer</button></li>
+        <li><button type="button" data-go="observatory">2907 Observatory</button></li>
+      </ul>
+      <button type="button" class="pnav-out" id="pnav-out">Sign Out</button>
+    </nav>
   </div>
 </header>
 
@@ -479,10 +596,56 @@ footer .wrap { padding-block: 2rem 2.5rem; display: flex; flex-wrap: wrap; justi
         <button class="link" type="button" id="sign-out">Sign Out</button>
       </div>
       <div id="portal-content"></div>
+      <div id="prop-pages"></div>
+      <section id="owner-gallery" aria-labelledby="og-title" hidden>
+        <div class="og-head">
+          <div>
+            <p class="og-eyebrow">Property Photos</p>
+            <h3 id="og-title">2981 Springer Ave · Floor 1</h3>
+          </div>
+          <p class="og-meta">Cincinnati, OH 45208 · 3 bed · 2 bath · 24 photos</p>
+        </div>
+        <button type="button" class="og-hero" data-i="0" aria-label="Open photo 1: Front exterior"><img src="photos/springer-01.jpg" alt="Front exterior of 2981 Springer Ave" decoding="async" style="aspect-ratio:16/10;object-position:center 40%"></button>
+        <ul>
+          <li><button type="button" class="og-thumb" data-i="0" aria-label="Open photo 1: Front exterior"><img src="photos/springer-01.jpg" alt="Front exterior" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="1" aria-label="Open photo 2: Exterior and driveway"><img src="photos/springer-02.jpg" alt="Exterior and driveway" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="2" aria-label="Open photo 3: Living room"><img src="photos/springer-03.jpg" alt="Living room" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="3" aria-label="Open photo 4: Living room"><img src="photos/springer-04.jpg" alt="Living room" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="4" aria-label="Open photo 5: Dining room"><img src="photos/springer-05.jpg" alt="Dining room" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="5" aria-label="Open photo 6: Dining room"><img src="photos/springer-06.jpg" alt="Dining room" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="6" aria-label="Open photo 7: Front porch"><img src="photos/springer-07.jpg" alt="Front porch" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="7" aria-label="Open photo 8: Front porch"><img src="photos/springer-08.jpg" alt="Front porch" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="8" aria-label="Open photo 9: Kitchen"><img src="photos/springer-09.jpg" alt="Kitchen" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="9" aria-label="Open photo 10: Kitchen"><img src="photos/springer-10.jpg" alt="Kitchen" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="10" aria-label="Open photo 11: Office"><img src="photos/springer-11.jpg" alt="Office" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="11" aria-label="Open photo 12: Bathroom"><img src="photos/springer-12.jpg" alt="Bathroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="12" aria-label="Open photo 13: Bedroom"><img src="photos/springer-13.jpg" alt="Bedroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="13" aria-label="Open photo 14: Bedroom"><img src="photos/springer-14.jpg" alt="Bedroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="14" aria-label="Open photo 15: Upstairs bedroom"><img src="photos/springer-15.jpg" alt="Upstairs bedroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="15" aria-label="Open photo 16: Upstairs bedroom"><img src="photos/springer-16.jpg" alt="Upstairs bedroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="16" aria-label="Open photo 17: Upstairs bathroom"><img src="photos/springer-17.jpg" alt="Upstairs bathroom" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="17" aria-label="Open photo 18: Upstairs loft"><img src="photos/springer-18.jpg" alt="Upstairs loft" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="18" aria-label="Open photo 19: Upstairs loft"><img src="photos/springer-19.jpg" alt="Upstairs loft" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="19" aria-label="Open photo 20: Backyard and garage"><img src="photos/springer-20.jpg" alt="Backyard and garage" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb" data-i="20" aria-label="Open photo 21: Backyard and garage"><img src="photos/springer-21.jpg" alt="Backyard and garage" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb plan" data-i="21" aria-label="Open photo 22: Floor plan · Floor 1"><img src="photos/springer-22.jpg" alt="Floor plan · Floor 1" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb plan" data-i="22" aria-label="Open photo 23: Floor plan · Both floors"><img src="photos/springer-23.jpg" alt="Floor plan · Both floors" loading="lazy" decoding="async"></button></li>
+          <li><button type="button" class="og-thumb plan" data-i="23" aria-label="Open photo 24: Floor plan · Floor 2"><img src="photos/springer-24.jpg" alt="Floor plan · Floor 2" loading="lazy" decoding="async"></button></li>
+        </ul>
+      </section>
     </div>
   </section>
 
 </main>
+
+
+<div class="og-box" id="og-box" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
+  <button type="button" class="og-close" aria-label="Close">&times;</button>
+  <button type="button" class="og-prev" aria-label="Previous photo">&lsaquo;</button>
+  <img id="og-img" alt="">
+  <p class="og-cap" id="og-cap"></p>
+  <button type="button" class="og-next" aria-label="Next photo">&rsaquo;</button>
+</div>
 
 <footer>
   <div class="wrap">
@@ -575,6 +738,7 @@ function show() {
     $("portal-content").innerHTML = "";
     document.title = current === "about" ? SITE_TITLE + " · About Us" : SITE_TITLE;
   }
+  syncGallery();
   window.scrollTo(0, 0);
 }
 
@@ -605,6 +769,296 @@ $("sign-out").addEventListener("click", () => {
   delete unlocked[current];
   location.hash = "";
 });
+
+// Owner portal photo gallery: shown only while the owner portal is signed in.
+const OG_CAPS = ["Front exterior", "Exterior and driveway", "Living room", "Living room", "Dining room", "Dining room", "Front porch", "Front porch", "Kitchen", "Kitchen", "Office", "Bathroom", "Bedroom", "Bedroom", "Upstairs bedroom", "Upstairs bedroom", "Upstairs bathroom", "Upstairs loft", "Upstairs loft", "Backyard and garage", "Backyard and garage", "Floor plan \u00b7 Floor 1", "Floor plan \u00b7 Both floors", "Floor plan \u00b7 Floor 2"];
+function syncGallery() { $("owner-gallery").hidden = !(current === "mp-owner" && unlocked["mp-owner"]); if ($("owner-gallery").hidden) closeBox(); else { addPropIcons(); useMarketEstimate(); } syncNav(); }
+// Exterior photo icons beside each property's name in the portal's Properties table.
+const PROP_ICONS = [
+  { match: /2981\s+springer/i, icon: "photos/icon-springer.jpg", open: () => openBox(0), label: "2981 Springer Ave" },
+  { match: /2907\s+observatory/i, icon: "photos/icon-observatory.jpg", open: () => openSingle("photos/observatory-01.jpg", "2907 Observatory Ave · Exterior"), label: "2907 Observatory Ave" }
+];
+function addPropIcons() {
+  document.querySelectorAll("#portal-content tr").forEach(tr => {
+    const cell = tr.cells && tr.cells[0];
+    if (!cell || cell.querySelector(".prop-icon")) return;
+    const p = PROP_ICONS.find(p => p.match.test(cell.textContent));
+    if (!p) return;
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "prop-icon"; b.setAttribute("aria-label", "View exterior photo of " + p.label);
+    const img = document.createElement("img"); img.src = p.icon; img.alt = ""; b.append(img);
+    b.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); p.open(); });
+    cell.classList.add("prop-cell"); cell.prepend(b);
+  });
+}
+// Portfolio summary: show the market estimate (the "totaling $X" market value in the
+// portal's own equity note) in place of the purchase-based Estimated Value.
+// The figure is read from the decrypted portal, so no amount is stored in this page.
+function useMarketEstimate() {
+  const root = $("portal-content");
+  if (!root) return;
+  const m = /market value[\s\S]*?totaling\s+(\$\d{1,3}(?:,\d{3})*)/i.exec(root.textContent);
+  if (!m) return;
+  const label = [...root.querySelectorAll("*")].find(el => !el.children.length && /^estimated\s+value$/i.test(el.textContent.replace(/\s+/g, " ").trim()));
+  if (!label) return;
+  let tile = label.parentElement;
+  while (tile && tile !== root && !/\$[\d,]+/.test(tile.textContent.replace(label.textContent, ""))) tile = tile.parentElement;
+  if (!tile || tile === root) return;
+  const walker = document.createTreeWalker(tile, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = walker.nextNode())) {
+    if (/\$[\d,]+/.test(n.nodeValue)) { n.nodeValue = n.nodeValue.replace(/\$[\d,]+/, m[1]); break; }
+  }
+  label.textContent = label.textContent.replace(/estimated\s+value/i, t => t === t.toUpperCase() ? "MARKET ESTIMATE" : "Market Estimate");
+}
+// ---- Owner portal top bar: Portfolio and one tab per property ----
+const NAV_PROPS = { springer: /2981\s+springer/i, observatory: /2907\s+observatory/i };
+let navOn = false, navObserver = null;
+function setNavCurrent(key) { ["portfolio","springer","observatory"].forEach(k => document.body.classList.toggle("nav-" + k, k === key)); document.querySelectorAll("#pnav [data-go]").forEach(b => { if (b.dataset.go === key) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); }); }
+function hidePortalDup() {
+  // The portal's own "MP Holdings · Owner Portal" line repeats the bar above it.
+  [...$("portal-content").querySelectorAll("*")].forEach(el => {
+    if (!el.children.length && /^mp\s+holdings\s*[·\-|•]\s*owner\s+portal$/i.test(el.textContent.replace(/\s+/g, " ").trim())) el.classList.add("portal-dup");
+  });
+}
+function syncNav() {
+  const on = current === "mp-owner" && !!unlocked["mp-owner"];
+  document.body.classList.toggle("portal-on", on);
+  $("pnav").hidden = !on;
+  if (!on) { document.body.classList.remove("view-prop", "view-springer", "view-observatory", "has-pages"); $("prop-pages").innerHTML = ""; }
+  const wasOn = navOn;
+  navOn = on;
+  if (on) {
+    hidePortalDup();
+    buildPropCards();
+    buildPropPages();
+    if (!wasOn) setView("portfolio");
+    if (!navObserver) {
+      // If the portal re-draws itself (opening a property, going back), re-apply the extras.
+      navObserver = new MutationObserver(() => { if (!navOn) return; navObserver.disconnect(); try { addPropIcons(); useMarketEstimate(); hidePortalDup(); buildPropCards(); buildPropPages(); } finally { navObserver.observe($("portal-content"), { childList: true, subtree: true }); } });
+    }
+    navObserver.disconnect(); navObserver.observe($("portal-content"), { childList: true, subtree: true });
+  } else if (navObserver) navObserver.disconnect();
+}
+function isShown(el) { return !!(el && el.getClientRects().length); }
+function findPropTarget(re) {
+  const root = $("portal-content");
+  const clickables = [...root.querySelectorAll("a[href], button, summary, [onclick], [role='button'], [role='tab'], [tabindex]")]
+    .filter(el => !el.closest(".prop-icon") && re.test(el.textContent));
+  // Prefer the smallest clickable that names the property and is on screen.
+  clickables.sort((a, b) => a.textContent.length - b.textContent.length);
+  const hit = clickables.find(isShown) || clickables[0];
+  if (hit) return { click: hit };
+  const row = [...root.querySelectorAll("tr, h1, h2, h3, h4, li")].find(el => re.test(el.textContent) && isShown(el));
+  return row ? { scroll: row } : null;
+}
+function backToList() {
+  const back = [...$("portal-content").querySelectorAll("a[href], button, summary, [onclick], [role='button']")]
+    .find(el => isShown(el) && /^\s*(?:[←‹<]\s*)?(?:back(?:\s+to\s+(?:portfolio|all\s+properties|properties))?|portfolio|all\s+properties)\s*$/i.test(el.textContent));
+  if (back) back.click();
+}
+function goPortfolio() {
+  const root = $("portal-content");
+  backToList();
+  root.querySelectorAll("details[open]").forEach(d => { if (Object.values(NAV_PROPS).some(re => re.test(d.textContent))) d.open = false; });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+function goProperty(key) {
+  const re = NAV_PROPS[key];
+  backToList();
+  const t = findPropTarget(re);
+  if (!t) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+  if (t.click) {
+    const el = t.click;
+    if (el.tagName === "SUMMARY") { el.parentElement.open = true; }
+    else el.click();
+    requestAnimationFrame(() => {
+      // After opening, bring the property's own heading (or the clicked item) into view.
+      const head = [...$("portal-content").querySelectorAll("h1, h2, h3")].find(h => re.test(h.textContent) && isShown(h));
+      const target = head || (isShown(el) ? el : null);
+      if (target) target.scrollIntoView({ behavior: "smooth", block: "start" }); else window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  } else t.scroll.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+$("pnav").addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (!b) return;
+  setView(b.dataset.go);
+});
+$("pnav-out").addEventListener("click", () => $("sign-out").click());
+// Keep the highlighted tab in step when someone opens a property from the page itself.
+$("portal-content").addEventListener("click", e => {
+  if (e.target.closest(".prop-icon")) return;
+  const el = e.target.closest("a[href], button, summary, [onclick], [role='button'], tr");
+  if (!el) return;
+  const key = Object.keys(NAV_PROPS).find(k => NAV_PROPS[k].test(el.textContent));
+  if (key) setNavCurrent(key);
+  else if (/^\s*(?:[←‹<]\s*)?(?:back|portfolio|all\s+properties)/i.test(el.textContent)) setNavCurrent("portfolio");
+});
+// ---- Properties table → side-by-side cards with each property's exterior photo ----
+const CARD_PHOTOS = {
+  springer: { src: "photos/springer-01.jpg", pos: "center 55%", open: () => openBox(0) },
+  observatory: { src: "photos/observatory-01.jpg", pos: "center 45%", open: () => openSingle("photos/observatory-01.jpg", "2907 Observatory Ave · Exterior") }
+};
+function cellText(c) { const t = c.cloneNode(true); t.querySelectorAll(".prop-icon").forEach(x => x.remove()); return t.textContent.replace(/\s+/g, " ").trim(); }
+function buildPropCards() {
+  const root = $("portal-content");
+  root.querySelectorAll("table:not([data-pcards])").forEach(table => {
+    const rows = [...table.rows];
+    if (rows.length < 2) return;
+    const head = rows[0];
+    if (!/^property$/i.test(cellText(head.cells[0] || head))) return;
+    const labels = [...head.cells].map(cellText);
+    const wrap = document.createElement("div"); wrap.className = "pcards";
+    let totalEl = null, made = 0;
+    rows.slice(1).forEach(tr => {
+      const cells = [...tr.cells];
+      if (!cells.length) return;
+      const name = cellText(cells[0]);
+      const dl = document.createElement("dl");
+      cells.slice(1).forEach((c, i) => {
+        const d = document.createElement("div");
+        const dt = document.createElement("dt"); dt.textContent = labels[i + 1] || "";
+        const dd = document.createElement("dd"); dd.innerHTML = c.innerHTML; dd.querySelectorAll(".prop-icon").forEach(x => x.remove());
+        d.append(dt, dd); dl.append(d);
+      });
+      if (/^total$/i.test(name)) {
+        totalEl = document.createElement("div"); totalEl.className = "ptotal";
+        const l = document.createElement("span"); l.className = "pt-label"; l.textContent = "Portfolio Total";
+        totalEl.append(l, dl); return;
+      }
+      const key = Object.keys(NAV_PROPS).find(k => NAV_PROPS[k].test(name));
+      const card = document.createElement("article"); card.className = "pcard";
+      if (key && CARD_PHOTOS[key]) {
+        const ph = CARD_PHOTOS[key];
+        const b = document.createElement("button"); b.type = "button"; b.className = "pc-photo"; b.setAttribute("aria-label", "View photos of " + name);
+        const img = document.createElement("img"); img.src = ph.src; img.alt = "Exterior of " + name; img.style.objectPosition = ph.pos; img.decoding = "async";
+        b.append(img); b.addEventListener("click", ph.open); card.append(b);
+      }
+      const body = document.createElement("div"); body.className = "pc-body";
+      const h = document.createElement("h3"); h.className = "pc-name"; h.textContent = name;
+      const small = document.createElement("small"); small.textContent = "Cincinnati, OH 45208"; h.append(small);
+      body.append(h, dl);
+      const opener = tr.querySelector("a[href], button:not(.prop-icon), [onclick]") || (tr.hasAttribute("onclick") ? tr : null);
+      if (opener || key) {
+        const go = document.createElement("button"); go.type = "button"; go.className = "pc-open"; go.textContent = "View details";
+        go.addEventListener("click", () => { if (key && $("pp-" + key)) { setView(key); return; } if (key) setNavCurrent(key); if (opener) { opener.click(); requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: "smooth" })); } else if (key) goProperty(key); });
+        body.append(go);
+      }
+      card.append(body); wrap.append(card); made++;
+    });
+    if (!made) return;
+    table.dataset.pcards = "1";
+    // Hide the original table (and its scroll wrapper, if that's all the wrapper holds).
+    const holder = table.parentElement && table.parentElement !== root && table.parentElement.children.length === 1 ? table.parentElement : table;
+    holder.classList.add("pc-hidden");
+    holder.after(wrap);
+    if (totalEl) wrap.after(totalEl);
+  });
+}
+// ---- One landing page per property, built from the portal's own Properties section ----
+const NAME_RE = { springer: /^\s*2981\s+springer\s+ave(?:nue)?\.?\s*$/i, observatory: /^\s*2907\s+observatory\s+ave(?:nue)?\.?\s*$/i };
+const PP_LABEL = { springer: "2981 Springer Avenue", observatory: "2907 Observatory Avenue" };
+const leafText = el => el.textContent.replace(/\s+/g, " ").trim();
+function findNameLeaf(root, re) {
+  return [...root.querySelectorAll("*")].find(el => !el.children.length && re.test(leafText(el)) && !el.closest("table, .pcards, .ptotal, .pc-hidden, #prop-pages"));
+}
+function buildPropPages() {
+  const root = $("portal-content"), pages = $("prop-pages");
+  if (root.querySelector("[data-pp-done]")) return;
+  pages.innerHTML = "";
+  const leaves = {};
+  Object.keys(NAME_RE).forEach(k => { const l = findNameLeaf(root, NAME_RE[k]); if (l) leaves[k] = l; });
+  const keys = Object.keys(leaves);
+  const blocks = {};
+  keys.forEach(k => {
+    const leaf = leaves[k];
+    let block = leaf.closest("details");
+    if (!block || !root.contains(block)) {
+      block = leaf;
+      while (block.parentElement && block.parentElement !== root) {
+        const up = block.parentElement;
+        if (keys.some(o => o !== k && up.contains(leaves[o])) || up.querySelector(".pcards, table")) break;
+        block = up;
+      }
+    }
+    blocks[k] = block;
+  });
+  // The old "Properties" heading over these blocks, and the wrapper that holds just them.
+  const oldHead = keys.length ? [...root.querySelectorAll("*")].find(el => !el.children.length && /^properties$/i.test(leafText(el)) && !el.classList.contains("pp-renamed") && !el.closest(".pcards, table")) : null;
+  let wrapper = null;
+  if (oldHead && keys.length) {
+    let a = oldHead.parentElement;
+    while (a && a !== root && !keys.every(k => a.contains(blocks[k]))) a = a.parentElement;
+    if (a && a !== root && !a.querySelector(".pcards, table, .ptotal")) wrapper = a;
+  }
+  keys.forEach(k => {
+    const block = blocks[k], leaf = leaves[k];
+    const page = document.createElement("section"); page.className = "ppage"; page.id = "pp-" + k; page.hidden = true;
+    page.setAttribute("aria-label", PP_LABEL[k]);
+    const back = document.createElement("button"); back.type = "button"; back.className = "pp-back"; back.textContent = "← Portfolio";
+    back.addEventListener("click", () => setView("portfolio"));
+    page.append(back);
+    const ph = CARD_PHOTOS[k];
+    if (ph) {
+      const hero = document.createElement("button"); hero.type = "button"; hero.className = "pp-hero"; hero.setAttribute("aria-label", "View photos of " + PP_LABEL[k]);
+      const img = document.createElement("img"); img.src = ph.src; img.alt = "Exterior of " + PP_LABEL[k]; img.style.objectPosition = ph.pos;
+      hero.append(img); hero.addEventListener("click", ph.open); page.append(hero);
+    }
+    // Header: name, the address line and monthly cash flow from the property's summary row.
+    const head = document.createElement("div"); head.className = "pp-head";
+    const hl = document.createElement("div");
+    const h2 = document.createElement("h2"); h2.textContent = leafText(leaf); hl.append(h2);
+    const scope = block.tagName === "DETAILS" ? (block.querySelector(":scope > summary") || block) : block;
+    const leafs = [...scope.querySelectorAll("*")].filter(el => !el.children.length || el.children.length === 0);
+    const sub = leafs.find(el => el !== leaf && /cincinnati|oh\s+452/i.test(leafText(el)));
+    if (sub) { const p = document.createElement("p"); p.className = "pp-sub"; p.textContent = leafText(sub); hl.append(p); }
+    head.append(hl);
+    const cfLabelIdx = leafs.findIndex(el => /cash\s*flow/i.test(leafText(el)));
+    const cfVal = leafs.slice(cfLabelIdx + 1).find(el => /^[−–-]?\s*\$[\d,]+/.test(leafText(el)));
+    if (cfLabelIdx >= 0 && cfVal) {
+      const cf = document.createElement("div"); cf.className = "pp-cf";
+      const l = document.createElement("span"); l.textContent = "Cash flow / mo";
+      const v = document.createElement("strong"); v.textContent = leafText(cfVal); if (/^[−–-]/.test(v.textContent)) v.classList.add("neg");
+      cf.append(l, v); head.append(cf);
+    }
+    page.append(head);
+    // Monthly figures from the Properties card.
+    const card = [...document.querySelectorAll(".pcard")].find(c => NAV_PROPS[k].test(c.querySelector(".pc-name") ? c.querySelector(".pc-name").textContent : ""));
+    if (card && card.querySelector("dl")) { const st = document.createElement("div"); st.className = "pp-stats"; st.append(card.querySelector("dl").cloneNode(true)); page.append(st); }
+    // The property's full details, moved over from the old Properties section.
+    const body = document.createElement("div"); body.className = "pp-body";
+    if (block.tagName === "DETAILS") { block.open = true; const sm = block.querySelector(":scope > summary"); if (sm) sm.classList.add("pp-sum-hidden"); block.addEventListener("toggle", () => { if (!block.open) block.open = true; }); }
+    else leaf.classList.add("pp-sum-hidden");
+    body.append(block);
+    page.append(body);
+    pages.append(page);
+  });
+  if (keys.length) {
+    if (wrapper) wrapper.classList.add("pc-hidden"); else if (oldHead) oldHead.classList.add("pc-hidden");
+  }
+  // Rename the cash-flow heading over the cards to "Properties".
+  const cfHead = [...root.querySelectorAll("*")].find(el => !el.children.length && /^monthly\s+cash\s*flow\s+by\s+property$/i.test(leafText(el)));
+  if (cfHead) { cfHead.textContent = cfHead.textContent === cfHead.textContent.toUpperCase() ? "PROPERTIES" : "Properties"; cfHead.classList.add("pp-renamed"); }
+  const mark = document.createElement("i"); mark.hidden = true; mark.dataset.ppDone = "1"; root.append(mark);
+  document.body.classList.toggle("has-pages", keys.length > 0);
+}
+function setView(key) {
+  const page = key !== "portfolio" ? $("pp-" + key) : null;
+  setNavCurrent(key);
+  document.querySelectorAll("#prop-pages > .ppage").forEach(p => { p.hidden = p !== page; });
+  document.body.classList.toggle("view-prop", !!page);
+  ["springer", "observatory"].forEach(k => document.body.classList.toggle("view-" + k, !!page && k === key));
+  if (key !== "portfolio" && !page) { goProperty(key); return; }
+  window.scrollTo(0, 0);
+}
+function openSingle(src, cap) { ogI = -1; $("og-img").src = src; $("og-img").alt = cap; $("og-cap").textContent = cap; document.querySelector(".og-prev").hidden = document.querySelector(".og-next").hidden = true; $("og-box").hidden = false; document.body.style.overflow = "hidden"; }
+let ogI = 0;
+function openBox(i) { document.querySelector(".og-prev").hidden = document.querySelector(".og-next").hidden = false; ogI = (i + OG_CAPS.length) % OG_CAPS.length; $("og-img").src = "photos/springer-" + String(ogI + 1).padStart(2, "0") + ".jpg"; $("og-img").alt = OG_CAPS[ogI]; $("og-cap").innerHTML = ""; $("og-cap").append(OG_CAPS[ogI]); const n = document.createElement("span"); n.textContent = (ogI + 1) + " / " + OG_CAPS.length; $("og-cap").append(n); $("og-box").hidden = false; document.body.style.overflow = "hidden"; }
+function closeBox() { if (!$("og-box").hidden) { $("og-box").hidden = true; document.body.style.overflow = ""; } }
+$("owner-gallery").addEventListener("click", e => { const b = e.target.closest("[data-i]"); if (b) openBox(+b.dataset.i); });
+$("og-box").addEventListener("click", e => { if (e.target.closest(".og-prev") && ogI >= 0) openBox(ogI - 1); else if (e.target.closest(".og-next") && ogI >= 0) openBox(ogI + 1); else if (e.target.closest(".og-close") || e.target === $("og-box")) closeBox(); });
+document.addEventListener("keydown", e => { if ($("og-box").hidden) return; if (e.key === "Escape") closeBox(); else if (ogI < 0) return; else if (e.key === "ArrowLeft") openBox(ogI - 1); else if (e.key === "ArrowRight") openBox(ogI + 1); });
 
 window.addEventListener("hashchange", show);
 show();
