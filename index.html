@@ -459,7 +459,7 @@ body.portal-on #view-company { padding-top: 2.75rem; }
 body.portal-on .portal-dup { display: none !important; }
 .pnav { display: flex; align-items: center; gap: 1rem 2rem; flex-wrap: wrap; justify-content: flex-end; flex: 1 1 auto; }
 .pnav[hidden] { display: none !important; }
-.pnav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: .25rem 1.9rem; flex-wrap: nowrap; }
+.pnav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: flex-start; gap: .25rem 1.9rem; flex-wrap: nowrap; }
 .pnav button { font-family: var(--display); font-size: .82rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--band-muted, #aeb6c4); background: none; border: 0; border-bottom: 1px solid transparent; padding: .45rem 0 .3rem; cursor: pointer; white-space: nowrap; transition: color .2s, border-color .2s; }
 .pnav button:hover { color: var(--band-ink, #f3eee2); border-bottom-color: rgba(243, 238, 226, .35); }
 .pnav button[aria-current="page"] { color: var(--band-ink, #f3eee2); border-bottom-color: var(--gold-btn, #c49a52); }
@@ -985,7 +985,7 @@ function buildPropPages() {
     blocks[k] = block;
   });
   // The old "Properties" heading over these blocks, and the wrapper that holds just them.
-  const oldHead = keys.length ? [...root.querySelectorAll("*")].find(el => !el.children.length && /^properties$/i.test(leafText(el)) && !el.classList.contains("pp-renamed") && !el.closest(".pcards, table")) : null;
+  const oldHead = keys.length ? [...root.querySelectorAll("h1, h2, h3, h4, h5, h6")].find(el => /^properties$/i.test(leafText(el)) && !el.classList.contains("pp-renamed") && !el.closest(".pcards, table, .tiles")) : null;
   let wrapper = null;
   if (oldHead && keys.length) {
     let a = oldHead.parentElement;
